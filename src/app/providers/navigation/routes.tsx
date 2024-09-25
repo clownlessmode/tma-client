@@ -1,11 +1,11 @@
-import type { ComponentType, JSX } from 'react';
+import type { ComponentType, JSX } from "react";
 
-import { IndexPage } from '@/pages/IndexPage/IndexPage';
-import { InitDataPage } from '@/pages/InitDataPage/InitDataPage';
-import { LaunchParamsPage } from '@/pages/LaunchParamsPage/LaunchParamsPage.tsx';
-import { ThemeParamsPage } from '@/pages/ThemeParamsPage/ThemeParamsPage.tsx';
-import { TONConnectPage } from '@/pages/TONConnectPage/TONConnectPage';
-
+import { IndexPage } from "@/pages/Telegram/AdminPage/AdminPage";
+import { InitDataPage } from "@/pages/Telegram/InitDataPage/InitDataPage";
+import { LaunchParamsPage } from "@/pages/Telegram/LaunchParamsPage/LaunchParamsPage";
+import { ThemeParamsPage } from "@/pages/Telegram/ThemeParamsPage/ThemeParamsPage";
+import { TONConnectPage } from "@/pages/Telegram/TONConnectPage/TONConnectPage";
+import TelegramAuth from "@/pages/TelegramAuth/TelegramAuth";
 interface Route {
   path: string;
   Component: ComponentType;
@@ -14,14 +14,24 @@ interface Route {
 }
 
 export const routes: Route[] = [
-  { path: '/', Component: IndexPage },
-  { path: '/init-data', Component: InitDataPage, title: 'Init Data' },
-  { path: '/theme-params', Component: ThemeParamsPage, title: 'Theme Params' },
-  { path: '/launch-params', Component: LaunchParamsPage, title: 'Launch Params' },
   {
-    path: '/ton-connect',
+    path: "/telegram-auth",
+    Component: TelegramAuth,
+    title: "Telegram Authorization",
+  },
+
+  { path: "/", Component: IndexPage },
+  { path: "/init-data", Component: InitDataPage, title: "Init Data" },
+  { path: "/theme-params", Component: ThemeParamsPage, title: "Theme Params" },
+  {
+    path: "/launch-params",
+    Component: LaunchParamsPage,
+    title: "Launch Params",
+  },
+  {
+    path: "/ton-connect",
     Component: TONConnectPage,
-    title: 'TON Connect',
+    title: "TON Connect",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,6 @@
-import WebApp from '@twa-dev/sdk';
-import { AppRoot } from '@telegram-apps/telegram-ui';
-import { type FC, useEffect } from 'react';
+import WebApp from "@twa-dev/sdk";
+import { AppRoot } from "@telegram-apps/telegram-ui";
+import { type FC, useEffect } from "react";
 import {
   Navigate,
   Route,
@@ -8,9 +8,10 @@ import {
   Routes,
   useLocation,
   useNavigate,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { routes } from '@/navigation/routes.tsx';
+import { routes } from "@/app/navigation/routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function BackButtonManipulator() {
   const location = useLocation();
@@ -26,7 +27,11 @@ function BackButtonManipulator() {
   }, [navigate]);
 
   useEffect(() => {
-    if (location.pathname === '/') {
+    if (
+      location.pathname === "/" ||
+      location.pathname === "/telegram-auth" ||
+      location.pathname === "/error"
+    ) {
       WebApp.BackButton.isVisible && WebApp.BackButton.hide();
     } else {
       !WebApp.BackButton.isVisible && WebApp.BackButton.show();
@@ -35,18 +40,23 @@ function BackButtonManipulator() {
 
   return null;
 }
+const queryClient = new QueryClient();
 
 export const App: FC = () => (
   <AppRoot
     appearance={WebApp.colorScheme}
-    platform={['macos', 'ios'].includes(WebApp.platform) ? 'ios' : 'base'}
+    platform={["macos", "ios"].includes(WebApp.platform) ? "ios" : "base"}
   >
     <BrowserRouter>
-      <BackButtonManipulator/>
-      <Routes>
-        {routes.map((route) => <Route key={route.path} {...route} />)}
-        <Route path='*' element={<Navigate to='/'/>}/>
-      </Routes>
+      <BackButtonManipulator />
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          {routes.map((route) => (
+            <Route key={route.path} {...route} />
+          ))}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   </AppRoot>
 );
